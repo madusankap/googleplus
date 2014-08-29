@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="googleplus" type="synapse/template" >
+    <subComponents> 
+		<component name="init" >
+	    		<file>init.xml</file>
+	    		<description>authentication</description>
+		</component>
+        <component name="getactivities" >
+            <file>GooglePlusGetActivities.xml</file>
+            <description>Google Plus Activity according to the activity id </description>
+        </component>
+    </subComponents>    
+</component>

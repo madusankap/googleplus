@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connector>
+    <component name="googleplus" package="org.wso2.carbon" >
+        <dependency component="googleplus" />
+        <description>synapse library for googleplus connector</description>
+    </component>
+    <icon>icon/icon.png</icon>
+</connector>

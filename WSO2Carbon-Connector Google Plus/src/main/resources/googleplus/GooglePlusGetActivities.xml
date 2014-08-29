@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template name="getactivities" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="activityid" description="Activity Id in Google plus" />
+    <parameter name="fields" description="Required Fields in response if null all the fields will in response" />
+        <sequence>
+
+        <property name="uri.var.activityid" expression="$func:activityid" />
+        <property name="uri.var.fields" expression="$func:fields" />
+            <class name="org.wso2.carbon.googleplus.GooglePlusGetActivities" />
+          </sequence>
+
+</template>
