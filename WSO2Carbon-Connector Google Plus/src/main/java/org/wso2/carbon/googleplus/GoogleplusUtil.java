@@ -42,6 +42,17 @@ public class GoogleplusUtil {
         return Boolean.parseBoolean(value);
 
     }
+    public static int toInteger(final String value) throws ValidationException {
+
+        if (!value.matches(StringConstants.INTEGER_REGEX)) {
+
+            throw new ValidationException("Invalid value for integer");
+
+        } else {
+            return Integer.parseInt(value);
+        }
+
+    }
     public static Plus getPlusServices(final MessageContext messageContext) throws IOException, GeneralSecurityException {
 
         HttpTransport httpTransport = new NetHttpTransport();
@@ -51,7 +62,7 @@ public class GoogleplusUtil {
             certificatePassword = "notasecret";
         }
 
-        String authType = (String) (messageContext.getProperty(GoogleplusUtil.StringConstants.USE_SERVICE_ACCOUNT));
+        String authType = (String) (messageContext.getProperty(StringConstants.USE_SERVICE_ACCOUNT));
         if (authType == null || authType.isEmpty()) {
             throw new GeneralSecurityException("Need to specify 'useServiceAccount' parameter");
         }
@@ -60,7 +71,7 @@ public class GoogleplusUtil {
         }
         boolean useServiceAccount =
                 Boolean.parseBoolean((String) messageContext
-                        .getProperty(GoogleplusUtil.StringConstants.USE_SERVICE_ACCOUNT));
+                        .getProperty(StringConstants.USE_SERVICE_ACCOUNT));
         System.out.println("Use Service Account:"+useServiceAccount);
 
         GoogleCredential credential = null;
@@ -71,7 +82,7 @@ public class GoogleplusUtil {
                             .setJsonFactory(jsonFactory)
                             .setServiceAccountId(
                                     (String) messageContext
-                                            .getProperty(GoogleplusUtil.StringConstants.SERVICE_ACCOUNT_EMAIL))
+                                            .getProperty(StringConstants.SERVICE_ACCOUNT_EMAIL))
                             .setServiceAccountScopes(Collections.singleton(PlusScopes.PLUS_ME))
                             .setServiceAccountPrivateKey(
                                     extractPrivatekeyFromAttachment(messageContext, certificatePassword)).build();
@@ -82,10 +93,13 @@ public class GoogleplusUtil {
                             .setTransport(httpTransport)
                             .setJsonFactory(jsonFactory)
                             .setClientSecrets(
-                                    (String) messageContext.getProperty(GoogleplusUtil.StringConstants.CLIENT_ID),
-                                    (String) messageContext.getProperty(GoogleplusUtil.StringConstants.CLIENT_SECRET))
-                            .build();
-
+                                    (String) messageContext.getProperty(StringConstants.CLIENT_ID),
+                                    (String) messageContext.getProperty(StringConstants.CLIENT_SECRET))
+                             .build()
+                            .setAccessToken(
+                                    (String) messageContext.getProperty(StringConstants.ACCESS_TOKEN))
+                            .setRefreshToken(
+                                    (String) messageContext.getProperty(StringConstants.REFRESH_TOKEN));
         }
 return new Plus.Builder(httpTransport, jsonFactory, credential).build();
     }
@@ -157,46 +171,5 @@ return new Plus.Builder(httpTransport, jsonFactory, credential).build();
 
         return  TransportUtils.createSOAPEnvelope(resultTag);
     }
-    public static final class StringConstants {
-        /**
-         * Specific to authentication Represent the useServiceAccount.
-         */
-        public static final String USE_SERVICE_ACCOUNT = "useServiceAccount";
 
-        /**
-         * Certificate password.
-         */
-        public static final String CERTIFICATE_PASSWORD = "certificatePassword";
-
-        /**
-         * Represent the serviceAccountEmail.
-         */
-        public static final String SERVICE_ACCOUNT_EMAIL = "serviceAccountEmail";
-
-               /**
-         * Represent the clientId.
-         */
-        public static final String CLIENT_ID = "clientId";
-
-        /**
-         * Represent the clientSecret.
-         */
-        public static final String CLIENT_SECRET = "clientSecret";
-
-        /**
-         * Represent the accessToken.
-         */
-        public static final String ACCESS_TOKEN = "accessToken";
-
-        /**
-         * Represent the refreshToken.
-         */
-        public static final String REFRESH_TOKEN = "refreshToken";
-
-        public static final String Activity_Id="activityid";
-        public static final String Fields="fields";
-        public static final String Activity="activity";
-        public static final String URN_GET_ACTIVITY="urn:wso2.connector.googleplus.getactivity";
-        public static final String GET_Activity="activities";
-    }
 }

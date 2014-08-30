@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template name="listactivities" xmlns="http://ws.apache.org/ns/synapse">
+    <parameter name="userId" description="Activity Id in Google plus" />
+    <parameter name="collection" description="Activity Id in Google plus" />
+    <parameter name="maxResults" description="Required Fields in response if null all the fields will in response" />
+    <parameter name="pageToken" description="Required Fields in response if null all the fields will in response" />
+    <parameter name="fields" description="Required Fields in response if null all the fields will in response" />
+
+        <sequence>
+         <property name="uri.var.userId" expression="$func:userId" />
+        <property name="uri.var.collection" expression="$func:collection" />
+            <property name="uri.var.maxResults" expression="$func:maxResults" />
+            <property name="uri.var.pageToken" expression="$func:pageToken" />
+            <property name="uri.var.fields" expression="$func:fields" />
+            <class name="org.wso2.carbon.googleplus.GooglePlusListActivities" />
+          </sequence>
+</template>

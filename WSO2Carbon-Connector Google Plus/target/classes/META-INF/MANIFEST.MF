@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1409304875045
+Bnd-LastModified: 1409418544511
 Build-Jdk: 1.7.0_07
 Built-By: tharindud
 Bundle-ManifestVersion: 2
@@ -22,14 +22,14 @@ Import-Package: org.apache.axiom.om;version="${axiom.osgi.version.range}
  ion;resolution:=optional,org.apache.axis2.transport;resolution:=optiona
  l,org.apache.synapse.commons.json;resolution:=optional,org.wso2.carbon.
  connector.core;resolution:=optional;version="[4.2,5)",org.wso2.carbon.c
- onnector.core.util;resolution:=optional;version="[4.2,5)",org.apache.ax
- is2;version="${axis2.osgi.version.range}",org.apache.axis2.description;
- version="${axis2.osgi.version.range}",org.wso2.carbon.core;version="[4.
- 2,5)",org.apache.synapse.config,javax.xml.soap;version="1.0.0",org.apac
- he.axis2.transport.base,org.apache.commons.logging,org.apache.synapse.c
- onfig.xml,org.apache.synapse.core,org.apache.synapse.mediators.base,org
- .wso2.carbon.registry.core.service;version="1.0.1",org.apache.axis2.rpc
- .receivers;version="${axis2.osgi.version.range}",org.apache.axis2.engin
- e;version="${axis2.osgi.version.range}"
+ onnector.core.util;resolution:=optional;version="[4.2,5)",org.apache.sy
+ napse.config.xml,org.apache.axis2.transport.base,org.apache.axis2;versi
+ on="${axis2.osgi.version.range}",org.wso2.carbon.core;version="[4.2,5)"
+ ,org.apache.axis2.engine;version="${axis2.osgi.version.range}",org.apac
+ he.synapse.mediators.base,org.wso2.carbon.registry.core.service;version
+ ="1.0.1",org.apache.synapse.config,javax.xml.soap;version="1.0.0",org.a
+ pache.axis2.rpc.receivers;version="${axis2.osgi.version.range}",org.apa
+ che.axis2.description;version="${axis2.osgi.version.range}",org.apache.
+ synapse.core,org.apache.commons.logging
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.5))"
 Tool: Bnd-2.3.0.201405100607

@@ -9,5 +9,9 @@
             <file>GooglePlusGetActivities.xml</file>
             <description>Google Plus Activity according to the activity id </description>
         </component>
+        <component name="listactivities" >
+            <file>GooglePlusListActivities.xml</file>
+            <description>Google Plus Activity according to the activity id </description>
+        </component>
     </subComponents>    
 </component>

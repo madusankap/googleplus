@@ -11,19 +11,12 @@ import org.wso2.carbon.connector.core.util.ConnectorUtils;
 public class GooglePLusConfig extends AbstractConnector {
     @Override
     public void connect(MessageContext messageContext) throws ConnectException {
-      /*  <property name="uri.var.useServiceAccount" expression="$func:useServiceAccount" />
-        <property name="uri.var.serviceAccountEmail" expression="$func:serviceAccountEmail" />
-        <property name="uri.var.certificatePassword" expression="$func:certificatePassword" />
-        <property name="uri.var.clientId" expression="$func:clientId" />
-        <property name="uri.var.clientSecret" expression="$func:clientSecret" />
-        <property name="uri.var.accessToken" expression="$func:accessToken" />
-        <property name="uri.var.refreshToken" expression="$func:refreshToken" />*/
-        messageContext.setProperty(GoogleplusUtil.StringConstants.USE_SERVICE_ACCOUNT, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.USE_SERVICE_ACCOUNT));
-        messageContext.setProperty(GoogleplusUtil.StringConstants.SERVICE_ACCOUNT_EMAIL, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.SERVICE_ACCOUNT_EMAIL));
-        messageContext.setProperty(GoogleplusUtil.StringConstants.CERTIFICATE_PASSWORD, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.CERTIFICATE_PASSWORD));
-        messageContext.setProperty(GoogleplusUtil.StringConstants.CLIENT_ID, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.CLIENT_ID));
-        messageContext.setProperty(GoogleplusUtil.StringConstants.CLIENT_SECRET, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.CLIENT_SECRET));
-        messageContext.setProperty(GoogleplusUtil.StringConstants.ACCESS_TOKEN, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.ACCESS_TOKEN));
-        messageContext.setProperty(GoogleplusUtil.StringConstants.REFRESH_TOKEN, ConnectorUtils.lookupTemplateParamater(messageContext,GoogleplusUtil.StringConstants.REFRESH_TOKEN));
+        messageContext.setProperty(StringConstants.USE_SERVICE_ACCOUNT, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.USE_SERVICE_ACCOUNT));
+        messageContext.setProperty(StringConstants.SERVICE_ACCOUNT_EMAIL, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.SERVICE_ACCOUNT_EMAIL));
+        messageContext.setProperty(StringConstants.CERTIFICATE_PASSWORD, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.CERTIFICATE_PASSWORD));
+        messageContext.setProperty(StringConstants.CLIENT_ID, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.CLIENT_ID));
+        messageContext.setProperty(StringConstants.CLIENT_SECRET, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.CLIENT_SECRET));
+        messageContext.setProperty(StringConstants.ACCESS_TOKEN, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.ACCESS_TOKEN));
+        messageContext.setProperty(StringConstants.REFRESH_TOKEN, ConnectorUtils.lookupTemplateParamater(messageContext,StringConstants.REFRESH_TOKEN));
     }
 }

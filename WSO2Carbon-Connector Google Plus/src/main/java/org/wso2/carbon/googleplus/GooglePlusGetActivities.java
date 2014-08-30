@@ -20,19 +20,17 @@ public class GooglePlusGetActivities extends AbstractConnector {
     Map<String, String> resultEnvelopeMap = new HashMap<String, String>();
     @Override
     public void connect(MessageContext messageContext) throws ConnectException {
-        String activityid=(String)getParameter(messageContext, GoogleplusUtil.StringConstants.Activity_Id);
-        System.out.println("activityid:"+activityid);
-        String fields=(String)getParameter(messageContext,GoogleplusUtil.StringConstants.Fields);
+        String activityid=(String)getParameter(messageContext, StringConstants.Activity_Id);
+        String fields=(String)getParameter(messageContext,StringConstants.Fields);
         if(!("").equals(activityid)){
                         try {
-                            if(null==fields || ("").equals(fields)){
+                            if(fields==null|| fields.equals("")){
                               getActivity(messageContext,activityid);
                             }else{
                                 getActivity(messageContext,activityid,fields);
                             }
-
             }catch (Exception ex){
-System.out.println(ex.getMessage());
+
                          }
         }
 
@@ -40,17 +38,17 @@ System.out.println(ex.getMessage());
     void getActivity(MessageContext messageContext,String activityid) throws IOException, GeneralSecurityException, XMLStreamException {
         Plus plus= GoogleplusUtil.getPlusServices(messageContext);
         Activity activity = plus.activities().get(activityid).setPrettyPrint(true).execute();
-        resultEnvelopeMap.put(GoogleplusUtil.StringConstants.Activity, activity.toPrettyString());
+        resultEnvelopeMap.put(StringConstants.Activity, activity.toPrettyString());
         messageContext.getEnvelope().detach();
-        SOAPEnvelope soapEnvelope=GoogleplusUtil.buildResultEnvelope(GoogleplusUtil.StringConstants.URN_GET_ACTIVITY,GoogleplusUtil.StringConstants.GET_Activity,resultEnvelopeMap);
+        SOAPEnvelope soapEnvelope=GoogleplusUtil.buildResultEnvelope(StringConstants.URN_GET_ACTIVITY,StringConstants.GET_Activity,resultEnvelopeMap);
         messageContext.setEnvelope(soapEnvelope);
     }
     void getActivity(MessageContext messageContext,String activityid,String fields) throws IOException, GeneralSecurityException, XMLStreamException {
         Plus plus= GoogleplusUtil.getPlusServices(messageContext);
         Activity activity = plus.activities().get(activityid).setPrettyPrint(true).setFields(fields).execute();
-        resultEnvelopeMap.put(GoogleplusUtil.StringConstants.Activity,activity.toPrettyString());
+        resultEnvelopeMap.put(StringConstants.Activity,activity.toPrettyString());
         messageContext.getEnvelope().detach();
-        SOAPEnvelope soapEnvelope=GoogleplusUtil.buildResultEnvelope(GoogleplusUtil.StringConstants.URN_GET_ACTIVITY,GoogleplusUtil.StringConstants.GET_Activity,resultEnvelopeMap);
+        SOAPEnvelope soapEnvelope=GoogleplusUtil.buildResultEnvelope(StringConstants.URN_GET_ACTIVITY,StringConstants.GET_Activity,resultEnvelopeMap);
         messageContext.setEnvelope(soapEnvelope);
     }
 }
