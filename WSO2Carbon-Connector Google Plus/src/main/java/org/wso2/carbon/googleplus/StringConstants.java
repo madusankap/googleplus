@@ -81,4 +81,11 @@ public  final class StringConstants {
     public static final String INTEGER_REGEX ="\\\\d+" ;
     public static final String ListActivity="activities";
     public static final String URN_LIST_ACTIVITY="wso2.connector.googleplus.listactivity";
+    public static final String SearchActivity="searchactivities";
+    public static final String URN_SEARCH_ACTIVITY="wso2.connector.googleplus.searchactivities";
+
+
+    public static final String Query="query";
+    public static final String Language="language";
+    public static final String ORDER_BY = "orderBy";
 }

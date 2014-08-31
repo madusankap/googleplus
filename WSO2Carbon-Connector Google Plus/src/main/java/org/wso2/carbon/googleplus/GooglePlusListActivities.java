@@ -1,7 +1,6 @@
 package org.wso2.carbon.googleplus;
 
 import com.google.api.services.plus.Plus;
-import com.google.api.services.plus.model.ActivityFeed;
 import org.apache.axiom.soap.SOAPEnvelope;
 import org.apache.synapse.MessageContext;
 import org.wso2.carbon.connector.core.AbstractConnector;
@@ -21,7 +20,8 @@ public class GooglePlusListActivities extends AbstractConnector {
     public void connect(MessageContext messageContext) throws ConnectException {
         String userid=(String)getParameter(messageContext, StringConstants.User_Id);
         String collection=(String)getParameter(messageContext, StringConstants.Collection);
-        int maxResults=0;
+
+        long maxResults=20;
         try {
             maxResults = GoogleplusUtil.toInteger((String) getParameter(messageContext, StringConstants.Max_Results));
         } catch (ValidationException e) {
@@ -39,130 +39,26 @@ public class GooglePlusListActivities extends AbstractConnector {
         * userid and collection
         * */
         if(mandatorycheck) {
-            ActivityFeed feed=null;
-            Plus.Activities.List listActivities=null;
-            try {
+                     try {
              Plus plus = GoogleplusUtil.getPlusServices(messageContext);
-             listActivities = plus.activities().list(userid,collection);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (GeneralSecurityException e) {
-                e.printStackTrace();
-            }
+                Plus.Activities.List listActivities = plus.activities().list(userid,collection);
+             if(fieldscheck){listActivities.setFields(fields);}
 
-            if(!maxresultcheck&&!fieldscheck&&!pagetokencheck) {
-                try {
-                    feed = Listactivities(listActivities);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+            if(maxresultcheck){
+                listActivities.setMaxResults(maxResults);
+           }
+            if(pagetokencheck){
+                listActivities.setPageToken(pagetoken);
             }
-            if(maxresultcheck&&!fieldscheck&&!pagetokencheck) {
-                try {
-                    feed = Listactivities(listActivities,maxResults);
-                } catch (IOException ex) {
-                }
-
-            }
-            if(!maxresultcheck&&fieldscheck&&!pagetokencheck) {
-                try {
-                   feed=Listactivities(listActivities,fields);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                           }
-            if(!maxresultcheck&&!fieldscheck&&pagetokencheck) {
-                try {
-                    feed=Listactivities(listActivities,"Token"+pagetoken);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(!maxresultcheck&&fieldscheck&&pagetokencheck) {
-                try {
-                  feed=  Listactivities(listActivities,fields,pagetoken);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(maxresultcheck&&fieldscheck&&pagetokencheck) {
-                try {
-              feed= Listactivities(listActivities,maxResults,fields,pagetoken);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(mandatorycheck&&maxresultcheck&&fieldscheck&&!pagetokencheck) {
-                try {
-                  feed=  Listactivities(listActivities,maxResults,fields);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if(mandatorycheck&&maxresultcheck&&!fieldscheck&&pagetokencheck) {
-                try {
-                  feed= Listactivities(listActivities,maxResults,"Token"+pagetoken);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-                try {
-                    resultEnvelopeMap.put(StringConstants.ListActivity, feed.toPrettyString());
+          resultEnvelopeMap.put(StringConstants.ListActivity, listActivities.execute().toPrettyString());
                     messageContext.getEnvelope().detach();
                     SOAPEnvelope soapEnvelope=GoogleplusUtil.buildResultEnvelope(StringConstants.URN_LIST_ACTIVITY,StringConstants.ListActivity,resultEnvelopeMap);
                     messageContext.setEnvelope(soapEnvelope);
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
-        }
-    }}
-
-    private ActivityFeed Listactivities(Plus.Activities.List listActivities , int maxResults, String fields, String pagetoken) throws IOException {
-        long convert=maxResults;
-        listActivities.setMaxResults(convert);
-        listActivities.setFields(fields);
-        listActivities.setPageToken(pagetoken);
-       return listActivities.execute();
-    }
-
-    private ActivityFeed Listactivities(Plus.Activities.List listActivities , String fields, String pagetoken) throws IOException {
-        listActivities.setFields(fields);
-        listActivities.setPageToken(pagetoken);
-       return  listActivities.execute();
-    }
-
-    private ActivityFeed Listactivities(Plus.Activities.List listActivities, int maxResults, String fields) throws IOException {
-        long convert=maxResults;
-        listActivities.setMaxResults(convert);
-        if(fields.contains("Token")){
-            listActivities.setPageToken(fields.substring(4));
-           return listActivities.execute();
-        }else{
-            listActivities.setFields(fields);
-            return listActivities.execute();
-        }
+                } catch (GeneralSecurityException e) {
+                e.printStackTrace();
             }
-
-    private ActivityFeed Listactivities(Plus.Activities.List listActivities, String fields) throws IOException {
-        if(fields.contains("Token")){
-            listActivities.setPageToken(fields.substring(4));
-            return  listActivities.execute();
-           }else{
-           listActivities.setFields(fields);
-            return listActivities.execute();
         }
-
-    }
-
-    private ActivityFeed Listactivities(Plus.Activities.List listActivities, int maxResults) throws IOException {
-        long convert=maxResults;
-        listActivities.setMaxResults(convert);
-        return listActivities.execute();
-
-    }
-
-    private ActivityFeed Listactivities(Plus.Activities.List listActivities) throws IOException {
-        return listActivities.execute();
-
     }
 }

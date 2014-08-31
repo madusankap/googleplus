@@ -13,5 +13,9 @@
             <file>GooglePlusListActivities.xml</file>
             <description>Google Plus Activity according to the activity id </description>
         </component>
+        <component name="searchactivities" >
+            <file>GooglePlusSearchActivities.xml</file>
+            <description>Google Plus Activity according to the activity id </description>
+        </component>
     </subComponents>    
 </component>
